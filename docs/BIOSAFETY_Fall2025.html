@@ -4,6 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Biology Lab Safety — Fall 2025 (BB Embed)</title>
+<meta name="color-scheme" content="dark light" />
 <style>
   :root{
     --bg:#0f1115; --fg:#e9edf1; --muted:#a9b1bc; --accent:#8fd3ff;
@@ -20,9 +21,8 @@
   .btn{appearance:none;border:1px solid var(--border);background:var(--card);color:var(--fg);padding:6px 10px;border-radius:10px;cursor:pointer}
   .btn:hover{border-color:#3a465d}
   .progress{font-variant-numeric:tabular-nums;color:var(--muted)}
-  .deck{flex:1 1 auto;min-height:0; /* allow child to size inside iframes */ }
-  .slide{display:none;width:100%;height:calc(100% - 0px); /* fill available height */
-         background:var(--card);border:1px solid var(--border);border-radius:16px;padding:var(--pad);line-height:1.5;overflow:auto}
+  .deck{flex:1 1 auto;min-height:0}
+  .slide{display:none;width:100%;height:calc(100% - 0px);background:var(--card);border:1px solid var(--border);border-radius:16px;padding:var(--pad);line-height:1.5;overflow:auto}
   .slide.active{display:block}
   h1{font-size:clamp(28px,4vw,40px);margin:0 0 8px}
   h2{font-size:clamp(22px,3.2vw,30px);color:var(--accent);margin:0 0 10px}
@@ -48,12 +48,12 @@
   <div class="toolbar">
     <div class="title">Biology Lab Safety — Fall 2025</div>
     <div class="controls">
-      <button class="btn" id="prev" aria-label="Previous slide">← Prev</button>
+      <button class="btn" type="button" id="prev" aria-label="Previous slide">← Prev</button>
       <div class="progress" id="progress">1 / 20</div>
-      <button class="btn" id="next" aria-label="Next slide">Next →</button>
-      <button class="btn" id="toggleAll" aria-pressed="false" aria-label="Toggle all slides view">Show all</button>
-      <button class="btn" id="print" aria-label="Print or Save as PDF">Print / PDF</button>
-      <button class="btn" id="pop" aria-label="Open full screen in new tab">Pop out ↗</button>
+      <button class="btn" type="button" id="next" aria-label="Next slide">Next →</button>
+      <button class="btn" type="button" id="toggleAll" aria-pressed="false" aria-label="Toggle all slides view">Show all</button>
+      <button class="btn" type="button" id="print" aria-label="Print or Save as PDF">Print / PDF</button>
+      <button class="btn" type="button" id="pop" aria-label="Open full screen in new tab">Pop out ↗</button>
     </div>
   </div>
 
@@ -183,14 +183,15 @@
     <section class="slide">
       <h2>Field &amp; Outdoor Safety</h2>
       <ul>
-        <li>When collecting samples outdoors (creeks, fields, woods):</li>
-        <ul>
-          <li>Wear closed-toe shoes or boots.</li>
-          <li>Be alert for snakes, ticks, or other wildlife.</li>
-          <li>Use gloves when handling soil, plants, or water samples.</li>
-          <li>Bring water and practice sun protection as appropriate.</li>
-          <li>Follow instructions for safe sample collection and transport.</li>
-        </ul>
+        <li>When collecting samples outdoors (creeks, fields, woods):
+          <ul>
+            <li>Wear closed-toe shoes or boots.</li>
+            <li>Be alert for snakes, ticks, or other wildlife.</li>
+            <li>Use gloves when handling soil, plants, or water samples.</li>
+            <li>Bring water and practice sun protection as appropriate.</li>
+            <li>Follow instructions for safe sample collection and transport.</li>
+          </ul>
+        </li>
       </ul>
     </section>
 
@@ -311,6 +312,12 @@
   </div>
 </div>
 
+<noscript>
+  <div style="padding:12px;color:#111;background:#ffd48a">
+    This deck requires JavaScript for navigation. Please use the PDF version if slides do not appear.
+  </div>
+</noscript>
+
 <script>
 (function(){
   const deck = document.getElementById('deck');
@@ -345,7 +352,7 @@
   next && next.addEventListener('click', ()=> go(ix+1));
   toggleAll && toggleAll.addEventListener('click', ()=> { showAll = !showAll; update(); });
   printBtn && printBtn.addEventListener('click', ()=> window.print());
-  popBtn && popBtn.addEventListener('click', ()=> window.open(window.location.href, '_blank', 'noopener'));
+  popBtn && popBtn.addEventListener('click', ()=> window.open(window.location.href, '_blank', 'noopener,noreferrer'));
 
   document.addEventListener('keydown', (e)=>{
     if(showAll) return;
@@ -360,4 +367,3 @@
 </script>
 </body>
 </html>
-
