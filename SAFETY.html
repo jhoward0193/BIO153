@@ -41,6 +41,40 @@
     .toolbar{display:none}
     .slide{page-break-after:always;height:auto;background:white;color:black;border-color:#ddd}
   }
+  /* --- Readability tweaks for BB / wide screens --- */
+
+/* 1) Make slides a comfortable width and center them */
+.deck { padding: 0 24px; }                 /* breathing room at the edges */
+.slide { 
+  max-width: 1100px;                       /* readable column width */
+  margin: 0 auto;                          /* center the slide */
+  box-shadow: 0 0 0 1px var(--border), 0 8px 24px rgba(0,0,0,.35); /* subtle lift */
+}
+
+/* 2) Bigger base text on large screens */
+body { font-size: clamp(16px, 1.05vw, 18px); }
+
+/* 3) Give slides more vertical presence so they don’t look squat */
+.slide { min-height: 72vh; }               /* was 60vh */
+@media (min-height: 800px) {
+  .slide { min-height: 80vh; }             /* taller monitors get taller slides */
+}
+
+/* 4) Tighten list spacing a bit and fix indent */
+ul { margin: .4rem 0 0 1.2rem; }
+li { margin: .35rem 0; }
+
+/* 5) Headings rhythm */
+h1 { margin: .2rem 0 .8rem; }
+h2 { margin: .2rem 0 .6rem; }
+h3 { margin: .6rem 0 .35rem; }
+
+/* 6) ‘Show all’ grid: make cards a touch taller */
+.grid .slide { min-height: 300px; }
+
+/* (Optional) Lighter border for less “boxy” look in dark mode */
+.slide { border-color: #324058; }
+
 </style>
 </head>
 <body>
