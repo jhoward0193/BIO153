@@ -1,106 +1,100 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Biology Lab Safety — Fall 2025 (BB Embed)</title>
+<title>Biology Lab Safety — Fall 2025 (No-JS)</title>
 <meta name="color-scheme" content="dark light" />
 <style>
   :root{
     --bg:#0f1115; --fg:#e9edf1; --muted:#a9b1bc; --accent:#8fd3ff;
-    --card:#161a22; --border:#273041; --link:#8fd3ff;
-    --pad:22px;
+    --card:#161a22; --border:#273041; --link:#8fd3ff; --pad:20px;
   }
-  *{box-sizing:border-box}
-  html,body{height:100%;margin:0;background:var(--bg);color:var(--fg);font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif}
-  a{color:var(--link)}
-  .app{height:100%;display:flex;flex-direction:column;gap:10px;padding:10px}
-  .toolbar{flex:0 0 auto;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 10px;background:rgba(15,17,21,.9);backdrop-filter:blur(6px);border:1px solid var(--border);border-radius:10px}
-  .title{font-weight:700}
-  .controls{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-  .btn{appearance:none;border:1px solid var(--border);background:var(--card);color:var(--fg);padding:6px 10px;border-radius:10px;cursor:pointer}
-  .btn:hover{border-color:#3a465d}
-  .progress{font-variant-numeric:tabular-nums;color:var(--muted)}
-  .deck{flex:1 1 auto;min-height:0}
-  .slide{display:none;width:100%;height:calc(100% - 0px);background:var(--card);border:1px solid var(--border);border-radius:16px;padding:var(--pad);line-height:1.5;overflow:auto}
-  .slide.active{display:block}
-  h1{font-size:clamp(28px,4vw,40px);margin:0 0 8px}
-  h2{font-size:clamp(22px,3.2vw,30px);color:var(--accent);margin:0 0 10px}
-  h3{font-size:clamp(18px,2.6vw,22px);margin:10px 0 6px}
-  p{margin:0 0 10px}
-  ul{margin:6px 0 0 20px}
-  li{margin:6px 0}
-  .small{color:var(--muted);font-size:0.95rem}
-  .callout{border-left:4px solid var(--accent);padding-left:10px;margin-top:10px;color:var(--muted)}
-  .two-col{display:grid;grid-template-columns:1fr;gap:14px}
-  @media (min-width:900px){ .two-col{grid-template-columns:1fr 1fr} }
-  .all{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:10px;height:100%;overflow:auto}
-  .all .slide{display:block;height:280px}
-  @media print{
-    body{background:white;color:black}
-    .toolbar{display:none}
-    .slide{page-break-after:always;height:auto;background:white;color:black;border-color:#ddd}
+  /* Base layout & theme */
+  html, body { margin:0; background:var(--bg); color:var(--fg); font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif; }
+  a { color:var(--link); text-decoration:none }
+  .wrap { max-width:1100px; margin:0 auto; padding:12px 16px; }
+  .toolbar { position:sticky; top:0; z-index:2; background:rgba(15,17,21,.9); backdrop-filter:blur(6px);
+             border:1px solid var(--border); border-radius:12px; padding:8px 12px; display:flex; gap:10px; align-items:center; justify-content:space-between; }
+  .title { font-weight:700 }
+  .controls { display:flex; gap:8px; align-items:center; flex-wrap:wrap }
+  .btn { border:1px solid var(--border); background:var(--card); color:var(--fg); padding:6px 10px; border-radius:10px }
+  .btn:hover { border-color:#3a465d }
+  .small { color:var(--muted); font-size:.95rem }
+
+  /* Slides */
+  .deck { margin-top:12px; padding:0 24px; }  /* breathing room at edges */
+  .slide {
+    display:none; width:100%;
+    background:var(--card); border:1px solid #324058; border-radius:16px;
+    padding:var(--pad); line-height:1.55; overflow:auto;
+    max-width:1100px; margin:0 auto; min-height:72vh;
+    box-shadow:0 0 0 1px var(--border), 0 8px 24px rgba(0,0,0,.35);
   }
-  /* --- Readability tweaks for BB / wide screens --- */
+  .slide:first-of-type { display:block }   /* default when no hash */
+  .slide:target { display:block }          /* show targeted slide */
 
-/* 1) Make slides a comfortable width and center them */
-.deck { padding: 0 24px; }                 /* breathing room at the edges */
-.slide { 
-  max-width: 1100px;                       /* readable column width */
-  margin: 0 auto;                          /* center the slide */
-  box-shadow: 0 0 0 1px var(--border), 0 8px 24px rgba(0,0,0,.35); /* subtle lift */
-}
+  /* Typography & spacing */
+  body { font-size: clamp(16px, 1.05vw, 18px); }
+  h1 { font-size:clamp(28px,4vw,40px); margin:.2rem 0 .8rem }
+  h2 { font-size:clamp(22px,3.2vw,30px); color:var(--accent); margin:.2rem 0 .6rem }
+  h3 { font-size:clamp(18px,2.6vw,22px); margin:.6rem 0 .35rem }
+  p  { margin:0 0 .6rem }
+  ul { margin:.4rem 0 0 1.2rem }  li { margin:.35rem 0 }
+  .muted { color:var(--muted) }
+  .note { font-style:italic; color:var(--muted) }
+  .nav { display:flex; gap:8px; margin-top:12px; flex-wrap:wrap }
+  .nav .btn { display:inline-block }
 
-/* 2) Bigger base text on large screens */
-body { font-size: clamp(16px, 1.05vw, 18px); }
+  /* Show-all toggle (pure CSS) */
+  #showall { display:none }
+  #showall:checked ~ .wrap .deck { }
+  #showall:checked ~ .wrap .deck .slide { display:block; min-height:300px }
+  #showall:checked ~ .wrap .deck { display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:12px }
 
-/* 3) Give slides more vertical presence so they don’t look squat */
-.slide { min-height: 72vh; }               /* was 60vh */
-@media (min-height: 800px) {
-  .slide { min-height: 80vh; }             /* taller monitors get taller slides */
-}
-
-/* 4) Tighten list spacing a bit and fix indent */
-ul { margin: .4rem 0 0 1.2rem; }
-li { margin: .35rem 0; }
-
-/* 5) Headings rhythm */
-h1 { margin: .2rem 0 .8rem; }
-h2 { margin: .2rem 0 .6rem; }
-h3 { margin: .6rem 0 .35rem; }
-
-/* 6) ‘Show all’ grid: make cards a touch taller */
-.grid .slide { min-height: 300px; }
-
-/* (Optional) Lighter border for less “boxy” look in dark mode */
-.slide { border-color: #324058; }
-
+  /* Print-friendly */
+  @media (min-height: 800px){ .slide { min-height:80vh } }
+  @media print {
+    .toolbar, .nav { display:none }
+    .deck { padding:0 }
+    .slide { display:block; page-break-after:always; background:white; color:black; border-color:#ddd; box-shadow:none; max-width:none }
+    body { background:white; color:black }
+  }
 </style>
 </head>
 <body>
-<div class="app" role="application" aria-roledescription="slide deck">
-  <div class="toolbar">
+
+<!-- Toolbar -->
+<div class="wrap">
+  <div class="toolbar" role="navigation" aria-label="Slide controls">
     <div class="title">Biology Lab Safety — Fall 2025</div>
     <div class="controls">
-      <button class="btn" type="button" id="prev" aria-label="Previous slide">← Prev</button>
-      <div class="progress" id="progress">1 / 20</div>
-      <button class="btn" type="button" id="next" aria-label="Next slide">Next →</button>
-      <button class="btn" type="button" id="toggleAll" aria-pressed="false" aria-label="Toggle all slides view">Show all</button>
-      <button class="btn" type="button" id="print" aria-label="Print or Save as PDF">Print / PDF</button>
-      <button class="btn" type="button" id="pop" aria-label="Open full screen in new tab">Pop out ↗</button>
+      <a class="btn" href="#s1" title="First slide">Home</a>
+      <a class="btn" href="#s20" title="Last slide">Last</a>
+      <label class="btn" for="showall" title="Show all slides">Show all</label>
+      <span class="small">Tip: Use your browser’s <strong>Print</strong> to save as PDF.</span>
     </div>
   </div>
+</div>
 
-  <div class="deck" id="deck">
+<!-- Show-all checkbox (drives pure-CSS grid) -->
+<input type="checkbox" id="showall" hidden />
+
+<!-- Slides -->
+<div class="wrap">
+  <div class="deck">
 
     <!-- 1 -->
-    <section class="slide active">
+    <section class="slide" id="s1">
       <h1>Biology Lab Safety</h1>
       <p class="small">Justin N. Howard · KCTCS · Fall 2025</p>
+      <div class="nav">
+        <a class="btn" href="#s2">Next →</a>
+      </div>
     </section>
 
     <!-- 2 -->
-    <section class="slide">
+    <section class="slide" id="s2">
       <h2>Objectives in the Lab</h2>
       <ul>
         <li>Work safely with biological materials, equipment, and chemicals.</li>
@@ -108,18 +102,20 @@ h3 { margin: .6rem 0 .35rem; }
         <li>Recognize safety levels and procedures for handling different organisms.</li>
         <li>Develop habits that protect yourself, your classmates, and the community.</li>
       </ul>
+      <div class="nav"><a class="btn" href="#s1">← Prev</a><a class="btn" href="#s3">Next →</a></div>
     </section>
 
     <!-- 3 -->
-    <section class="slide">
+    <section class="slide" id="s3">
       <h2>Lab Access Policy</h2>
       <p>Occasionally, a student may need to enter the laboratory outside of scheduled class time to check an experiment, collect data, or complete a minor task. Because laboratory work involves potential risks, the following policies apply:</p>
       <h3>Permission Required</h3>
       <p>Students must receive prior approval from the instructor before entering the lab alone.</p>
+      <div class="nav"><a class="btn" href="#s2">← Prev</a><a class="btn" href="#s4">Next →</a></div>
     </section>
 
     <!-- 4 -->
-    <section class="slide">
+    <section class="slide" id="s4">
       <h2>Lab Access Policy</h2>
       <h3>Authorized Tasks Only</h3>
       <p>Students may only perform the specific task(s) approved by the instructor.</p>
@@ -130,41 +126,32 @@ h3 { margin: .6rem 0 .35rem; }
         <li>Collecting data from experiments already in progress</li>
         <li>Watering plants or maintaining specimens</li>
       </ul>
+      <div class="nav"><a class="btn" href="#s3">← Prev</a><a class="btn" href="#s5">Next →</a></div>
     </section>
 
     <!-- 5 -->
-    <section class="slide">
+    <section class="slide" id="s5">
       <h2>Lab Access Policy</h2>
-      <div class="two-col">
-        <div>
-          <h3>No Hazardous Work</h3>
-          <p>Procedures involving flames, volatile chemicals, electrical equipment, sharps, or live microbial cultures are <strong>not permitted</strong> when working alone.</p>
-        </div>
-        <div>
-          <h3>Time &amp; Sign-In</h3>
-          <p>Students must complete lab tasks during building hours and sign in/out as directed.</p>
-        </div>
-      </div>
+      <h3>No Hazardous Work</h3>
+      <p>Procedures involving flames, volatile chemicals, electrical equipment, sharps, or live microbial cultures are <strong>not permitted</strong> when working alone.</p>
+      <h3>Time &amp; Sign-In</h3>
+      <p>Students must complete lab tasks during building hours and sign in/out as directed.</p>
+      <div class="nav"><a class="btn" href="#s4">← Prev</a><a class="btn" href="#s6">Next →</a></div>
     </section>
 
     <!-- 6 -->
-    <section class="slide">
+    <section class="slide" id="s6">
       <h2>Lab Access Policy</h2>
-      <div class="two-col">
-        <div>
-          <h3>Accountability</h3>
-          <p>Leave the lab secure, with all equipment cleaned, powered down, and returned to its proper place.</p>
-        </div>
-        <div>
-          <h3>Emergency Protocol</h3>
-          <p>In case of accident or injury, contact campus security (or dial 911 if needed) and notify the instructor.</p>
-        </div>
-      </div>
-      <div class="callout">Summary: Independent access is a privilege granted case-by-case. Only routine, low-risk tasks may be completed without direct supervision.</div>
+      <h3>Accountability</h3>
+      <p>Leave the lab secure, with all equipment cleaned, powered down, and returned to its proper place.</p>
+      <h3>Emergency Protocol</h3>
+      <p>In case of accident or injury, contact campus security (or dial 911 if needed) and notify the instructor.</p>
+      <p class="note">Summary: Independent access is a privilege granted case-by-case. Only routine, low-risk tasks may be completed without direct supervision.</p>
+      <div class="nav"><a class="btn" href="#s5">← Prev</a><a class="btn" href="#s7">Next →</a></div>
     </section>
 
     <!-- 7 -->
-    <section class="slide">
+    <section class="slide" id="s7">
       <h2>General Safety in the Lab</h2>
       <ul>
         <li>Wear appropriate protective clothing:
@@ -178,10 +165,11 @@ h3 { margin: .6rem 0 .35rem; }
         <li>If you are pregnant or immunocompromised, notify the instructor.</li>
         <li>Always follow instructor guidance for equipment use.</li>
       </ul>
+      <div class="nav"><a class="btn" href="#s6">← Prev</a><a class="btn" href="#s8">Next →</a></div>
     </section>
 
     <!-- 8 -->
-    <section class="slide">
+    <section class="slide" id="s8">
       <h2>Handling Specimens</h2>
       <ul>
         <li>Treat <strong>all specimens</strong> (plant, animal, human, or microbial) as potentially hazardous.</li>
@@ -189,10 +177,11 @@ h3 { margin: .6rem 0 .35rem; }
         <li>Dispose of tissues and dissected material in <strong>designated biohazard or specimen containers</strong>.</li>
         <li>Follow instructor directions for cleanup and disposal.</li>
       </ul>
+      <div class="nav"><a class="btn" href="#s7">← Prev</a><a class="btn" href="#s9">Next →</a></div>
     </section>
 
     <!-- 9 -->
-    <section class="slide">
+    <section class="slide" id="s9">
       <h2>Open Flames &amp; Heat Sources</h2>
       <ul>
         <li>Bunsen burners, alcohol lamps, and hot plates can cause burns or fires.</li>
@@ -200,10 +189,11 @@ h3 { margin: .6rem 0 .35rem; }
         <li>Tie back long hair and secure loose clothing.</li>
         <li>Always turn burners off when not in use.</li>
       </ul>
+      <div class="nav"><a class="btn" href="#s8">← Prev</a><a class="btn" href="#s10">Next →</a></div>
     </section>
 
     <!-- 10 -->
-    <section class="slide">
+    <section class="slide" id="s10">
       <h2>Electrical Safety</h2>
       <ul>
         <li>Equipment such as <strong>gel electrophoresis units</strong>, centrifuges, and microscopes use electricity.</li>
@@ -211,10 +201,11 @@ h3 { margin: .6rem 0 .35rem; }
         <li>Report frayed cords or malfunctioning equipment immediately.</li>
         <li>Disconnect power before adjusting equipment.</li>
       </ul>
+      <div class="nav"><a class="btn" href="#s9">← Prev</a><a class="btn" href="#s11">Next →</a></div>
     </section>
 
     <!-- 11 -->
-    <section class="slide">
+    <section class="slide" id="s11">
       <h2>Field &amp; Outdoor Safety</h2>
       <ul>
         <li>When collecting samples outdoors (creeks, fields, woods):
@@ -227,10 +218,11 @@ h3 { margin: .6rem 0 .35rem; }
           </ul>
         </li>
       </ul>
+      <div class="nav"><a class="btn" href="#s10">← Prev</a><a class="btn" href="#s12">Next →</a></div>
     </section>
 
     <!-- 12 -->
-    <section class="slide">
+    <section class="slide" id="s12">
       <h2>Emergency &amp; Hazard Safety</h2>
       <ul>
         <li>Dispose of broken glass in the <strong>designated sharps container</strong>.</li>
@@ -244,10 +236,11 @@ h3 { margin: .6rem 0 .35rem; }
         </li>
         <li>Report any accidents or spills immediately.</li>
       </ul>
+      <div class="nav"><a class="btn" href="#s11">← Prev</a><a class="btn" href="#s13">Next →</a></div>
     </section>
 
     <!-- 13 -->
-    <section class="slide">
+    <section class="slide" id="s13">
       <h2>Best Practices</h2>
       <ul>
         <li><strong>No eating, drinking, or applying cosmetics</strong> in lab.</li>
@@ -256,10 +249,11 @@ h3 { margin: .6rem 0 .35rem; }
         <li>Minimize exposure to all cultures and chemicals.</li>
         <li>Keep your work area organized and uncluttered.</li>
       </ul>
+      <div class="nav"><a class="btn" href="#s12">← Prev</a><a class="btn" href="#s14">Next →</a></div>
     </section>
 
     <!-- 14 -->
-    <section class="slide">
+    <section class="slide" id="s14">
       <h2>Standard Lab Practices</h2>
       <ul>
         <li>Wash hands before leaving lab (<strong>required in microbiology labs</strong>).</li>
@@ -268,10 +262,11 @@ h3 { margin: .6rem 0 .35rem; }
         <li>Routinely disinfect work surfaces.</li>
         <li>Never remove cultures, chemicals, or specimens from the lab.</li>
       </ul>
+      <div class="nav"><a class="btn" href="#s13">← Prev</a><a class="btn" href="#s15">Next →</a></div>
     </section>
 
     <!-- 15 -->
-    <section class="slide">
+    <section class="slide" id="s15">
       <h2>Waste &amp; Decontamination</h2>
       <ul>
         <li>Dispose of waste properly:
@@ -284,10 +279,11 @@ h3 { margin: .6rem 0 .35rem; }
         <li>Keep tubes upright in racks.</li>
         <li>Cover spills with paper towels and notify the instructor immediately.</li>
       </ul>
+      <div class="nav"><a class="btn" href="#s14">← Prev</a><a class="btn" href="#s16">Next →</a></div>
     </section>
 
     <!-- 16 -->
-    <section class="slide">
+    <section class="slide" id="s16">
       <h2>Biosafety Levels</h2>
       <ul>
         <li>Labs are categorized by <strong>Biosafety Levels (BSL-1 to BSL-4)</strong>.</li>
@@ -301,20 +297,22 @@ h3 { margin: .6rem 0 .35rem; }
         </li>
         <li>Most teaching labs use <strong>BSL-1</strong> or <strong>BSL-2</strong> organisms.</li>
       </ul>
+      <div class="nav"><a class="btn" href="#s15">← Prev</a><a class="btn" href="#s17">Next →</a></div>
     </section>
 
     <!-- 17 -->
-    <section class="slide">
+    <section class="slide" id="s17">
       <h2>BSL-1</h2>
       <ul>
         <li>Basic protection for well-characterized organisms.</li>
         <li>Not known to cause disease in healthy adults.</li>
         <li>Standard PPE (lab coat, gloves, eyewear) recommended.</li>
       </ul>
+      <div class="nav"><a class="btn" href="#s16">← Prev</a><a class="btn" href="#s18">Next →</a></div>
     </section>
 
     <!-- 18 -->
-    <section class="slide">
+    <section class="slide" id="s18">
       <h2>BSL-2</h2>
       <ul>
         <li>Moderate-risk organisms that may cause human disease.</li>
@@ -323,81 +321,35 @@ h3 { margin: .6rem 0 .35rem; }
         <li>Aerosol/splash procedures conducted in a <strong>biosafety cabinet</strong>.</li>
         <li>Decontaminate equipment before removal.</li>
       </ul>
+      <div class="nav"><a class="btn" href="#s17">← Prev</a><a class="btn" href="#s19">Next →</a></div>
     </section>
 
     <!-- 19 -->
-    <section class="slide">
+    <section class="slide" id="s19">
       <h2>Higher Containment (BSL-3 &amp; BSL-4)</h2>
       <ul>
         <li><strong>BSL-3:</strong> Agents spread by aerosols; can cause serious or lethal disease. Requires special PPE and additional containment measures.</li>
         <li><strong>BSL-4:</strong> Exotic, life-threatening agents with no available treatment. Restricted to maximum containment labs with positive-pressure suits.</li>
       </ul>
-      <p class="small">Note: Teaching labs will not involve BSL-3 or BSL-4 organisms.</p>
+      <p class="muted">Note: Teaching labs will not involve BSL-3 or BSL-4 organisms.</p>
+      <div class="nav"><a class="btn" href="#s18">← Prev</a><a class="btn" href="#s20">Next →</a></div>
     </section>
 
     <!-- 20 -->
-    <section class="slide">
+    <section class="slide" id="s20">
       <h2>References</h2>
       <ol>
         <li>U.S. Department of Health and Human Services. <em>Biosafety in Microbiological and Biomedical Laboratories</em> (6th ed.). 2020.</li>
       </ol>
+      <div class="nav">
+        <a class="btn" href="#s19">← Prev</a>
+        <a class="btn" href="#s1">Back to start</a>
+        <label class="btn" for="showall">Show all</label>
+      </div>
     </section>
 
   </div>
 </div>
 
-<noscript>
-  <div style="padding:12px;color:#111;background:#ffd48a">
-    This deck requires JavaScript for navigation. Please use the PDF version if slides do not appear.
-  </div>
-</noscript>
-
-<script>
-(function(){
-  const deck = document.getElementById('deck');
-  const slides = Array.from(deck.querySelectorAll('.slide'));
-  const progress = document.getElementById('progress');
-  const prev = document.getElementById('prev');
-  const next = document.getElementById('next');
-  const toggleAll = document.getElementById('toggleAll');
-  const printBtn = document.getElementById('print');
-  const popBtn = document.getElementById('pop');
-
-  let ix = 0;
-  let showAll = false;
-
-  function update(){
-    slides.forEach((s,i)=> s.classList.toggle('active', !showAll && i===ix));
-    deck.classList.toggle('all', showAll);
-    if(progress) progress.textContent = showAll ? `All slides (${slides.length})` : `${ix+1} / ${slides.length}`;
-    if(toggleAll){
-      toggleAll.textContent = showAll ? 'Slide view' : 'Show all';
-      toggleAll.setAttribute('aria-pressed', showAll ? 'true' : 'false');
-    }
-    if(prev) prev.disabled = showAll || ix===0;
-    if(next) next.disabled = showAll || ix===slides.length-1;
-  }
-  function go(n){
-    ix = Math.max(0, Math.min(slides.length-1, n));
-    update();
-  }
-
-  prev && prev.addEventListener('click', ()=> go(ix-1));
-  next && next.addEventListener('click', ()=> go(ix+1));
-  toggleAll && toggleAll.addEventListener('click', ()=> { showAll = !showAll; update(); });
-  printBtn && printBtn.addEventListener('click', ()=> window.print());
-  popBtn && popBtn.addEventListener('click', ()=> window.open(window.location.href, '_blank', 'noopener,noreferrer'));
-
-  document.addEventListener('keydown', (e)=>{
-    if(showAll) return;
-    if(e.key==='ArrowRight' || e.key==='PageDown') go(ix+1);
-    if(e.key==='ArrowLeft'  || e.key==='PageUp')   go(ix-1);
-    if(e.key==='Home') go(0);
-    if(e.key==='End')  go(slides.length-1);
-  });
-
-  update();
-})();
-</script>
 </body>
 </html>
